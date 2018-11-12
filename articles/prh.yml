@@ -1,0 +1,60 @@
+# techboosterとvvakame氏のprhをベースに作成
+version: 1
+
+imports:
+  - ../prh-rules/media/WEB+DB_PRESS.yml
+#  - ../prh-rules/media/techbooster.yml
+
+rules:
+  - expected: TechBooster
+    pattern: てっくぶーすたー
+    prh: 警告メッセージのカスタマイズができるよ！
+  # ケアレスミス防止用
+  - expected: "@<$1>{$2}" # 先頭 @ はyaml的にアレなのでダブルクォートで囲む
+    pattern:  /@([^{<>]+){([^}]+)}/
+    specs:
+      - from: "@list{foo}"
+        to:   "@<list>{foo}"
+      - from: "@<list>{foo}"
+        to:   "@<list>{foo}"
+    prh: Re:VIEW記法の書き方を間違えていませんか？
+  # 記号
+  # 半角括弧を全角括弧に
+  - expected: （$1）
+    pattern:  /\((.+?)\)/
+    specs:
+      - from: そうですね(笑)
+        to:   そうですね（笑）
+      - from: (@<fn>{test})
+        to:   （@<fn>{test}）
+      - from: "(ほげ)ほげ)"
+        to:   "（ほげ）ほげ)"
+    prh: 半角カッコの代わりに全角カッコを使うこと。文字のバランスが崩れるためです
+
+  - expected: API Level
+    pattern:  API level
+    prh: APIドキュメントでも揺れてますが、Levelで統一してます
+  - expected: Web
+  - expected: jQuery
+  - expected: Re:VIEW
+    pattern:  /ReVIEW/
+    specs:
+      - from: ReVIEW
+        to:   Re:VIEW
+      - from: review
+        to:   review
+  - expected: superset
+    pattern:  super set
+  - expected: 技術書典
+    pattern:  /技術書(店|…|点|展|てん)/
+    specs:
+      - from: 技術書点
+        to:   技術書典
+      - from: 技術書展
+        to:   技術書典
+  - expected: View
+    pattern:  Vew
+  - expected: aidl
+    pattern:  /adil/
+  - expected: AIDL
+    pattern:  /ADIL/

@@ -1,0 +1,17 @@
+.DS_Store
+/.vscode
+/.firebase
+.firebaserc
+
+node_modules
+Gemfile.lock
+*.pdf
+
+articles/*.html
+articles/*.txt
+articles/*.md
+articles/images/cover/
+articles/images/tmp/
+articles/images/**/*-original.jpg
+
+finalize/
